@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Navidad Estelar · Cómic fan · Diarios de Star Trek</title>
+<meta name="description" content="Navidad Estelar, cómic fan de Star Trek de 16 páginas. Léelo online pasando las páginas o descárgalo gratis en PDF.">
+<meta property="og:title" content="Navidad Estelar · Cómic fan de Star Trek">
+<meta property="og:description" content="Léelo online pasando las páginas o descárgalo gratis en PDF.">
+<meta property="og:image" content="og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.png">
+<style>
+@font-face{font-family:Oswald;src:url(fonts/Oswald-600.ttf);font-weight:600}
+@font-face{font-family:Oswald;src:url(fonts/Oswald-700.ttf);font-weight:700}
+:root{--navy:#0a0e20;--navy2:#141a33;--gold:#e8be6e;--orange:#f0964a;--soft:#c8d0e1;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(ellipse at 50% 0%,#1c2448 0%,var(--navy) 60%);color:var(--white);font-family:Oswald,"Arial Narrow",Arial,sans-serif;font-weight:600;display:flex;flex-direction:column;min-height:100%;overflow-x:hidden}
+header{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 16px 6px;text-align:left}
+header img{width:52px;height:52px}
+header h1{font-weight:700;font-size:clamp(24px,4vw,38px);letter-spacing:.04em;line-height:1}
+header p{color:var(--gold);font-size:clamp(13px,1.8vw,17px);letter-spacing:.06em;margin-top:4px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 10px 8px;min-height:0}
+#stage{width:100%;max-width:1100px;display:flex;justify-content:center;align-items:center;position:relative}
+#book{margin:0 auto}
+#book .page{background:#000}
+#book .page img{width:100%;height:100%;object-fit:cover;display:block}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:2px solid var(--gold);background:rgba(10,14,32,.75);color:var(--gold);font-size:22px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center}
+.nav:hover{background:var(--gold);color:var(--navy)}
+#prev{left:4px}#next{right:4px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:14px 10px 6px}
+.btn{font-family:inherit;font-weight:600;font-size:16px;letter-spacing:.04em;border-radius:24px;padding:10px 20px;cursor:pointer;text-decoration:none;border:2px solid var(--gold);color:var(--gold);background:transparent}
+.btn.primary{background:var(--gold);color:var(--navy)}
+.btn:hover{filter:brightness(1.12)}
+#count{color:var(--soft);font-size:16px;min-width:110px;text-align:center}
+.hint{color:var(--soft);font-size:14px;opacity:.8;text-align:center;padding:0 10px}
+footer{color:var(--soft);font-size:12.5px;line-height:1.5;text-align:center;padding:16px 14px 22px;opacity:.85;font-family:Arial,sans-serif;font-weight:400}
+footer a{color:var(--gold)}
+#loading{color:var(--soft);padding:60px 0}
+:fullscreen body,body:fullscreen{background:var(--navy)}
+@media (max-width:600px){.nav{width:38px;height:38px;font-size:18px}header img{width:42px;height:42px}}
+</style>
+</head>
+<body>
+<header>
+  <img src="emblema.png" alt="Emblema de Diarios de Star Trek">
+  <div><h1>NAVIDAD ESTELAR</h1><p>CÓMIC FAN · DIARIOS DE STAR TREK</p></div>
+</header>
+<main>
+  <div id="stage">
+    <button class="nav" id="prev" aria-label="Página anterior">&#9664;</button>
+    <div id="book"><div id="loading">Cargando el cómic…</div></div>
+    <button class="nav" id="next" aria-label="Página siguiente">&#9654;</button>
+  </div>
+  <div class="bar">
+    <span id="count">Portada</span>
+    <button class="btn" id="fs">Pantalla completa</button>
+    <a class="btn primary" href="Navidad_Estelar.pdf" download>Descargar PDF</a>
+  </div>
+  <p class="hint">Pasa las páginas arrastrando la esquina, con las flechas o con las teclas ← →.</p>
+</main>
+<footer>
+  Producción de fans, gratuita y sin ánimo de lucro, sin relación oficial con Paramount ni CBS.
+  Star Trek y sus personajes y marcas pertenecen a sus propietarios.<br>
+  Más en <a href="https://youtube.com/@DiariosdeStarTrek" rel="noopener">YouTube</a> e Instagram <a href="https://instagram.com/diariosdestartrek" rel="noopener">@diariosdestartrek</a>.
+</footer>
+<script src="lib/page-flip.browser.js"></script>
+<script>
+(function(){
+  var N=16, pages=[];
+  for(var i=1;i<=N;i++) pages.push('pages/'+(i<10?'0':'')+i+'.webp');
+  var el=document.getElementById('book');
+  el.innerHTML='';
+  pages.forEach(function(src,i){
+    var d=document.createElement('div'); d.className='page';
+    if(i===0||i===N-1) d.setAttribute('data-density','hard');
+    var im=document.createElement('img'); im.src=src; im.alt='Página '+(i+1); im.draggable=false;
+    if(i>3) im.loading='lazy';
+    d.appendChild(im); el.appendChild(d);
+  });
+  var flip=new St.PageFlip(el,{width:450,height:800,size:'stretch',minWidth:200,maxWidth:900,minHeight:356,maxHeight:1600,
+    showCover:true,usePortrait:true,mobileScrollSupport:false,maxShadowOpacity:.45,flippingTime:700,autoSize:true});
+  flip.loadFromHTML(el.querySelectorAll('.page'));
+  function fit(){
+    var h=window.innerHeight-290, w=Math.min(document.getElementById('stage').clientWidth-110, 1100);
+    var portrait=window.innerWidth<760;
+    var ph=Math.max(300,h), pw=ph*9/16;
+    var maxW=portrait?w:w/2;
+    if(pw>maxW){pw=maxW;ph=pw*16/9}
+    el.style.width=(portrait?pw:pw*2)+'px'; el.style.height=ph+'px';
+    try{flip.update()}catch(e){}
+  }
+  window.addEventListener('resize',fit); fit();
+  var count=document.getElementById('count');
+  function label(){
+    var p=flip.getCurrentPageIndex();
+    if(p===0){count.textContent='Portada';return}
+    if(p>=N-1){count.textContent='Contraportada';return}
+    var o=flip.getOrientation&&flip.getOrientation();
+    count.textContent=(o==='landscape'&&p+1<N-1)?'Páginas '+(p+1)+'–'+(p+2)+' de '+N:'Página '+(p+1)+' de '+N;
+  }
+  flip.on('flip',label); flip.on('changeOrientation',label); label();
+  document.getElementById('prev').onclick=function(){flip.flipPrev()};
+  document.getElementById('next').onclick=function(){flip.flipNext()};
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')flip.flipNext();if(e.key==='ArrowLeft')flip.flipPrev()});
+  var fsb=document.getElementById('fs');
+  if(!document.documentElement.requestFullscreen){fsb.style.display='none'}
+  fsb.onclick=function(){
+    if(document.fullscreenElement){document.exitFullscreen()}else{document.documentElement.requestFullscreen().catch(function(){})}
+  };
+  document.addEventListener('fullscreenchange',function(){fsb.textContent=document.fullscreenElement?'Salir de pantalla completa':'Pantalla completa';setTimeout(fit,200)});
+})();
+</script>
+</body>
+</html>
