@@ -15,13 +15,13 @@
 @font-face{font-family:Oswald;src:url(fonts/Oswald-700.ttf);font-weight:700}
 :root{--navy:#0a0e20;--navy2:#141a33;--gold:#e8be6e;--orange:#f0964a;--soft:#c8d0e1;--white:#fff}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+html{height:100%}
 body{background:radial-gradient(ellipse at 50% 0%,#1c2448 0%,var(--navy) 60%);color:var(--white);font-family:Oswald,"Arial Narrow",Arial,sans-serif;font-weight:600;display:flex;flex-direction:column;min-height:100%;overflow-x:hidden}
 header{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 16px 6px;text-align:left}
 header img{width:52px;height:52px}
 header h1{font-weight:700;font-size:clamp(24px,4vw,38px);letter-spacing:.04em;line-height:1}
 header p{color:var(--gold);font-size:clamp(13px,1.8vw,17px);letter-spacing:.06em;margin-top:4px}
-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 10px 8px;min-height:0}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 10px 8px;flex:1 0 auto}
 #stage{width:100%;max-width:1100px;display:flex;justify-content:center;align-items:center;position:relative}
 #book{margin:0 auto}
 #book .page{background:#000}
@@ -34,7 +34,8 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .btn.primary{background:var(--gold);color:var(--navy)}
 .btn:hover{filter:brightness(1.12)}
 #count{color:var(--soft);font-size:16px;min-width:110px;text-align:center}
-.hint{color:var(--soft);font-size:14px;opacity:.8;text-align:center;padding:0 10px}
+.hint{color:var(--soft);font-size:14px;opacity:.8;text-align:center;padding:0 10px 6px}
+#stage,.bar,.hint,footer{position:relative}
 footer{color:var(--soft);font-size:12.5px;line-height:1.5;text-align:center;padding:16px 14px 22px;opacity:.85;font-family:Arial,sans-serif;font-weight:400}
 footer a{color:var(--gold)}
 #loading{color:var(--soft);padding:60px 0}
